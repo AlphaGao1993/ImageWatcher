@@ -52,14 +52,14 @@ public class MainActivity2 extends Activity implements MessagePicturesLayout.Cal
         iwHelper = ImageWatcherHelper.with(this, new GlideSimpleLoader()) // 一般来讲， ImageWatcher 需要占据全屏的位置
                 .setTranslucentStatus(!isTranslucentStatus ? Utils.calcStatusBarHeight(this) : 0) // 如果不是透明状态栏，你需要给ImageWatcher标记 一个偏移值，以修正点击ImageView查看的启动动画的Y轴起点的不正确
                 .setErrorImageRes(R.mipmap.error_picture) // 配置error图标 如果不介意使用lib自带的图标，并不一定要调用这个API
-                .setOnPictureLongPressListener(new ImageWatcher.OnPictureLongPressListener() {
+                .setOnPictureLongPressListener(new ImageWatcher.OnPictureLongPressListener<Uri>() {
                     @Override
                     public void onPictureLongPress(ImageView v, Uri uri, int pos) {
                         // 长按图片的回调，你可以显示一个框继续提供一些复制，发送等功能
                         Toast.makeText(v.getContext().getApplicationContext(), "长按了第" + (pos + 1) + "张图片", Toast.LENGTH_SHORT).show();
                     }
                 })
-                .setOnStateChangedListener(new ImageWatcher.OnStateChangedListener() {
+                .setOnStateChangedListener(new ImageWatcher.OnStateChangedListener<Uri>() {
                     @Override
                     public void onStateChangeUpdate(ImageWatcher imageWatcher, ImageView clicked, int position, Uri uri, float animatedValue, int actionTag) {
                         Log.e("IW", "onStateChangeUpdate [" + position + "][" + uri + "][" + animatedValue + "][" + actionTag + "]");

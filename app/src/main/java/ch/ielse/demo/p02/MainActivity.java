@@ -17,7 +17,7 @@ import com.github.ielse.imagewatcher.ImageWatcher;
 import java.util.List;
 
 
-public class MainActivity extends Activity implements MessagePicturesLayout.Callback, ImageWatcher.OnPictureLongPressListener {
+public class MainActivity extends Activity implements MessagePicturesLayout.Callback, ImageWatcher.OnPictureLongPressListener<Uri> {
 
     private ImageWatcher vImageWatcher;
 
@@ -64,7 +64,7 @@ public class MainActivity extends Activity implements MessagePicturesLayout.Call
         // 长按图片的回调，你可以显示一个框继续提供一些复制，发送等功能
         vImageWatcher.setOnPictureLongPressListener(this);
         vImageWatcher.setLoader(new GlideSimpleLoader());
-        vImageWatcher.setOnStateChangedListener(new ImageWatcher.OnStateChangedListener() {
+        vImageWatcher.setOnStateChangedListener(new ImageWatcher.OnStateChangedListener<Uri>() {
             @Override
             public void onStateChangeUpdate(ImageWatcher imageWatcher, ImageView clicked, int position, Uri uri, float animatedValue, int actionTag) {
                 Log.e("IW", "onStateChangeUpdate [" + position + "][" + uri + "][" + animatedValue + "][" + actionTag + "]");

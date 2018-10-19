@@ -35,7 +35,7 @@ import android.widget.TextView;
 import java.lang.ref.WeakReference;
 import java.util.List;
 
-public class ImageWatcher extends FrameLayout implements GestureDetector.OnGestureListener, ViewPager.OnPageChangeListener {
+public class ImageWatcher<T> extends FrameLayout implements GestureDetector.OnGestureListener, ViewPager.OnPageChangeListener {
     private static final int SINGLE_TAP_UP_CONFIRMED = 1;
     private static final int DATA_INITIAL = 2;
     public static final int STATE_ENTER_DISPLAYING = 3;
@@ -78,13 +78,13 @@ public class ImageWatcher extends FrameLayout implements GestureDetector.OnGestu
     private boolean isInitLayout = false;
     protected ImageView initI; // 显示ImageWatcher时点击view
     protected SparseArray<ImageView> initImageGroupList; // imageView控件映射列表
-    protected List<Uri> initUrlList;
+    protected List<T> initUrlList;
 
     private OnPictureLongPressListener pictureLongPressListener; // 图片长按回调
     private ImagePagerAdapter adapter;
     private final ViewPager vPager;
     protected SparseArray<ImageView> mImageGroupList; // 图片所在的ImageView控件集合，Int类型的Key对应position
-    protected List<Uri> mUrlList; // 图片地址列表
+    protected List<T> mUrlList; // 图片地址列表
     protected int initPosition;
     private int currentPosition;
     private int mPagerPositionOffsetPixels; // viewpager当前在屏幕上偏移量
@@ -143,8 +143,8 @@ public class ImageWatcher extends FrameLayout implements GestureDetector.OnGestu
         pictureLongPressListener = listener;
     }
 
-    public interface Loader {
-        void load(Context context, Uri uri, LoadCallback lc);
+    public interface Loader<T> {
+        void load(Context context, T uri, LoadCallback lc);
     }
 
     public interface LoadCallback {
@@ -155,13 +155,13 @@ public class ImageWatcher extends FrameLayout implements GestureDetector.OnGestu
         void onLoadFailed(Drawable errorDrawable);
     }
 
-    public interface IndexProvider {
+    public interface IndexProvider<T> {
         View initialView(Context context);
 
-        void onPageChanged(ImageWatcher imageWatcher, int position, List<Uri> dataList);
+        void onPageChanged(ImageWatcher imageWatcher, int position, List<T> dataList);
     }
 
-    public class DefaultIndexProvider implements IndexProvider {
+    public class DefaultIndexProvider implements IndexProvider<T> {
         TextView tCurrentIdx;
 
         @Override
@@ -178,7 +178,7 @@ public class ImageWatcher extends FrameLayout implements GestureDetector.OnGestu
         }
 
         @Override
-        public void onPageChanged(ImageWatcher imageWatcher, int position, List<Uri> dataList) {
+        public void onPageChanged(ImageWatcher imageWatcher, int position, List<T> dataList) {
             if (mUrlList.size() > 1) {
                 tCurrentIdx.setVisibility(View.VISIBLE);
                 final String idxInfo = (position + 1) + " / " + mUrlList.size();
@@ -222,22 +222,22 @@ public class ImageWatcher extends FrameLayout implements GestureDetector.OnGestu
         }
     }
 
-    public interface OnStateChangedListener {
-        void onStateChangeUpdate(ImageWatcher imageWatcher, ImageView clicked, int position, Uri uri, float animatedValue, int actionTag);
+    public interface OnStateChangedListener<T> {
+        void onStateChangeUpdate(ImageWatcher imageWatcher, ImageView clicked, int position, T uri, float animatedValue, int actionTag);
 
-        void onStateChanged(ImageWatcher imageWatcher, int position, Uri uri, int actionTag);
+        void onStateChanged(ImageWatcher imageWatcher, int position, T uri, int actionTag);
     }
 
-    public interface OnPictureLongPressListener {
+    public interface OnPictureLongPressListener<T> {
         /**
          * @param v   当前被按的ImageView
          * @param uri 当前ImageView加载展示的图片地址
          * @param pos 当前ImageView在展示组中的位置
          */
-        void onPictureLongPress(ImageView v, Uri uri, int pos); // 当前展示图片长按的回调
+        void onPictureLongPress(ImageView v, T uri, int pos); // 当前展示图片长按的回调
     }
 
-    public void show(List<Uri> urlList, int initPos) {
+    public void show(List<T> urlList, int initPos) {
         if (urlList == null) {
             throw new NullPointerException("urlList[null]");
         }
@@ -255,7 +255,7 @@ public class ImageWatcher extends FrameLayout implements GestureDetector.OnGestu
      * @param imageGroupList 被点击的ImageView的所在列表，加载图片时会提前展示列表中已经下载完成的thumb图片
      * @param urlList        被加载的图片url列表，数量必须大于等于 imageGroupList.size。 且顺序应当和imageGroupList保持一致
      */
-    public void show(ImageView i, SparseArray<ImageView> imageGroupList, final List<Uri> urlList) {
+    public void show(ImageView i, SparseArray<ImageView> imageGroupList, final List<T> urlList) {
         if (i == null || imageGroupList == null || urlList == null) {
             throw new NullPointerException("i[" + i + "]  imageGroupList[" + imageGroupList + "]  urlList[" + urlList + "]");
         }
@@ -272,7 +272,7 @@ public class ImageWatcher extends FrameLayout implements GestureDetector.OnGestu
         showInternal(i, imageGroupList, urlList);
     }
 
-    private void showInternal(ImageView i, SparseArray<ImageView> imageGroupList, final List<Uri> urlList) {
+    private void showInternal(ImageView i, SparseArray<ImageView> imageGroupList, final List<T> urlList) {
         if (loader == null) {
             throw new NullPointerException("please invoke `setLoader` first [loader == null]");
         }
@@ -305,7 +305,7 @@ public class ImageWatcher extends FrameLayout implements GestureDetector.OnGestu
         return currentPosition;
     }
 
-    public Uri getDisplayingUri() {
+    public T getDisplayingUri() {
         return mUrlList != null ? mUrlList.get(getCurrentPosition()) : null;
     }
 
