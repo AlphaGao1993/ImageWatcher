@@ -1,11 +1,12 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
+apply plugin: 'maven'
 
 
 android {
     compileSdkVersion 27
-    buildToolsVersion "27.0.2"
+    buildToolsVersion "27.0.3"
     resourcePrefix "imagewatcher__"
 
     defaultConfig {
@@ -23,6 +24,17 @@ android {
     }
 }
 
+uploadArchives {
+    repositories.mavenDeployer {
+        repository(url: "http://101.132.41.133:8081/repository/android-lib/") {
+            authentication(userName: "kid17-Android", password: "kid17.com")
+        }
+        pom.version = "0.0.1"
+        pom.artifactId = "imageWatcher"
+        pom.groupId = "com.yiqizhangda"
+    }
+}
+
 dependencies {
-    implementation 'com.android.support:appcompat-v7:27.0.2'
+    implementation 'com.android.support:appcompat-v7:27.1.1'
 }
