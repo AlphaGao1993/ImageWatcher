@@ -66,12 +66,12 @@ public class ImageWatcherHelper {
         return this;
     }
 
-    public void show(ImageView i, SparseArray<ImageView> imageGroupList, List<Uri> urlList) {
+    public void show(ImageView i, SparseArray<ImageView> imageGroupList, List<MImage> urlList) {
         init();
         mImageWatcher.show(i, imageGroupList, urlList);
     }
 
-    public void show(List<Uri> urlList, int initPos) {
+    public void show(List<MImage> urlList, int initPos) {
         init();
         mImageWatcher.show(urlList, initPos);
     }

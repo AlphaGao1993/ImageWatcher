@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.github.ielse.imagewatcher.ImageWatcher;
+import com.github.ielse.imagewatcher.MImage;
 
 import java.util.List;
 
@@ -66,12 +67,12 @@ public class MainActivity extends Activity implements MessagePicturesLayout.Call
         vImageWatcher.setLoader(new GlideSimpleLoader());
         vImageWatcher.setOnStateChangedListener(new ImageWatcher.OnStateChangedListener() {
             @Override
-            public void onStateChangeUpdate(ImageWatcher imageWatcher, ImageView clicked, int position, Uri uri, float animatedValue, int actionTag) {
+            public void onStateChangeUpdate(ImageWatcher imageWatcher, ImageView clicked, int position, MImage uri, float animatedValue, int actionTag) {
                 Log.e("IW", "onStateChangeUpdate [" + position + "][" + uri + "][" + animatedValue + "][" + actionTag + "]");
             }
 
             @Override
-            public void onStateChanged(ImageWatcher imageWatcher, int position, Uri uri, int actionTag) {
+            public void onStateChanged(ImageWatcher imageWatcher, int position, MImage uri, int actionTag) {
                 if (actionTag == ImageWatcher.STATE_ENTER_DISPLAYING) {
                     Toast.makeText(getApplicationContext(), "点击了图片 [" + position + "]" + uri + "", Toast.LENGTH_SHORT).show();
                 } else if (actionTag == ImageWatcher.STATE_EXIT_HIDING) {
@@ -84,12 +85,12 @@ public class MainActivity extends Activity implements MessagePicturesLayout.Call
 
 
     @Override
-    public void onThumbPictureClick(ImageView i, SparseArray<ImageView> imageGroupList, List<Uri> urlList) {
+    public void onThumbPictureClick(ImageView i, SparseArray<ImageView> imageGroupList, List<MImage> urlList) {
         vImageWatcher.show(i, imageGroupList, urlList);
     }
 
     @Override
-    public void onPictureLongPress(ImageView v, Uri uri, int pos) {
+    public void onPictureLongPress(ImageView v, MImage uri, int pos) {
         Toast.makeText(v.getContext().getApplicationContext(), "长按了第" + (pos + 1) + "张图片", Toast.LENGTH_SHORT).show();
 
         new SheetDialog.Builder(this)

@@ -17,13 +17,14 @@ import com.facebook.imagepipeline.image.CloseableImage;
 import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.github.ielse.imagewatcher.ImageWatcher;
+import com.github.ielse.imagewatcher.MImage;
 
 class FrescoSimpleLoader implements ImageWatcher.Loader {
     @Override
-    public void load(final Context context, Uri uri, final ImageWatcher.LoadCallback lc) {
+    public void load(final Context context, MImage uri, final ImageWatcher.LoadCallback lc) {
         lc.onLoadStarted(null);
 
-        ImageRequest imageRequest = ImageRequestBuilder.newBuilderWithSource(uri).setProgressiveRenderingEnabled(true).build();
+        ImageRequest imageRequest = ImageRequestBuilder.newBuilderWithSource(Uri.parse(uri.getUrl())).setProgressiveRenderingEnabled(true).build();
         ImagePipeline imagePipeline = Fresco.getImagePipeline();
         DataSource<CloseableReference<CloseableImage>> dataSource = imagePipeline.fetchDecodedImage(imageRequest, this);
         dataSource.subscribe(new BaseBitmapDataSubscriber() {
@@ -34,7 +35,7 @@ class FrescoSimpleLoader implements ImageWatcher.Loader {
                 ((Activity) context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        lc.onResourceReady(new BitmapDrawable(bitmap));
+                        lc.onResourceReady(bitmap);
                     }
                 });
             }

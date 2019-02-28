@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.github.ielse.imagewatcher.ImageWatcher;
 import com.github.ielse.imagewatcher.ImageWatcherHelper;
+import com.github.ielse.imagewatcher.MImage;
 
 import java.util.List;
 
@@ -54,19 +55,19 @@ public class MainActivity2 extends Activity implements MessagePicturesLayout.Cal
                 .setErrorImageRes(R.mipmap.error_picture) // 配置error图标 如果不介意使用lib自带的图标，并不一定要调用这个API
                 .setOnPictureLongPressListener(new ImageWatcher.OnPictureLongPressListener() {
                     @Override
-                    public void onPictureLongPress(ImageView v, Uri uri, int pos) {
+                    public void onPictureLongPress(ImageView v, MImage uri, int pos) {
                         // 长按图片的回调，你可以显示一个框继续提供一些复制，发送等功能
                         Toast.makeText(v.getContext().getApplicationContext(), "长按了第" + (pos + 1) + "张图片", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .setOnStateChangedListener(new ImageWatcher.OnStateChangedListener() {
                     @Override
-                    public void onStateChangeUpdate(ImageWatcher imageWatcher, ImageView clicked, int position, Uri uri, float animatedValue, int actionTag) {
+                    public void onStateChangeUpdate(ImageWatcher imageWatcher, ImageView clicked, int position, MImage uri, float animatedValue, int actionTag) {
                         Log.e("IW", "onStateChangeUpdate [" + position + "][" + uri + "][" + animatedValue + "][" + actionTag + "]");
                     }
 
                     @Override
-                    public void onStateChanged(ImageWatcher imageWatcher, int position, Uri uri, int actionTag) {
+                    public void onStateChanged(ImageWatcher imageWatcher, int position, MImage uri, int actionTag) {
                         if (actionTag == ImageWatcher.STATE_ENTER_DISPLAYING) {
                             Toast.makeText(getApplicationContext(), "点击了图片 [" + position + "]" + uri + "", Toast.LENGTH_SHORT).show();
                         } else if (actionTag == ImageWatcher.STATE_EXIT_HIDING) {
@@ -81,7 +82,7 @@ public class MainActivity2 extends Activity implements MessagePicturesLayout.Cal
     }
 
     @Override
-    public void onThumbPictureClick(ImageView i, SparseArray<ImageView> imageGroupList, List<Uri> urlList) {
+    public void onThumbPictureClick(ImageView i, SparseArray<ImageView> imageGroupList, List<MImage> urlList) {
         iwHelper.show(i, imageGroupList, urlList);
     }
 

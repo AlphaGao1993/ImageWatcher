@@ -1,20 +1,19 @@
 package ch.ielse.demo.p02;
 
 import android.app.Activity;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.SparseArray;
 import android.view.View;
 import android.widget.ImageView;
-
 import com.bumptech.glide.Glide;
 import com.github.ielse.imagewatcher.ImageWatcherHelper;
+import com.github.ielse.imagewatcher.MImage;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity4 extends Activity {
-    private List<Uri> dataList = new ArrayList<>();
+    private List<MImage> dataList = new ArrayList<>();
 
     private ImageWatcherHelper iwHelper;
 
@@ -31,14 +30,14 @@ public class MainActivity4 extends Activity {
         String u6 = "http://img.hb.aicdn.com/e1c5522de00aae08819d127b44b5dd943f6359fa121f7-EtF0yY_fw658";
         String u7 = "http://img.hb.aicdn.com/13bbb585cd889fe41d39e8da1eac185143a6a3123ae2-91zlEN_fw658";
         String u8 = "http://img.hb.aicdn.com/c2ea3454413ce9353e002749e5425fcf550f2bf7bb0c-yLD00Z_fw658";
-        dataList.add(Uri.parse(u1));
-        dataList.add(Uri.parse(u2));
-        dataList.add(Uri.parse(u3));
-        dataList.add(Uri.parse(u4));
-        dataList.add(Uri.parse(u5));
-        dataList.add(Uri.parse(u6));
-        dataList.add(Uri.parse(u7));
-        dataList.add(Uri.parse(u8));
+        dataList.add(MImage.parse(u1));
+        dataList.add(MImage.parse(u2));
+        dataList.add(MImage.parse(u3));
+        dataList.add(MImage.parse(u4));
+        dataList.add(MImage.parse(u5));
+        dataList.add(MImage.parse(u6));
+        dataList.add(MImage.parse(u7));
+        dataList.add(MImage.parse(u8));
 
         Glide.with(this).load(u1).into(((ImageView) findViewById(R.id.v1)));
         Glide.with(this).load(u2).into(((ImageView) findViewById(R.id.v2)));

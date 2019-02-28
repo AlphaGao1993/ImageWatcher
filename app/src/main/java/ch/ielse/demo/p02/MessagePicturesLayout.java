@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.github.ielse.imagewatcher.MImage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,8 +35,8 @@ public class MessagePicturesLayout extends FrameLayout implements View.OnClickLi
 
     private Callback mCallback;
     private boolean isInit;
-    private List<Uri> mDataList;
-    private List<Uri> mThumbDataList;
+    private List<MImage> mDataList;
+    private List<MImage> mThumbDataList;
 
     public MessagePicturesLayout(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -62,7 +63,7 @@ public class MessagePicturesLayout extends FrameLayout implements View.OnClickLi
         addView(tOverflowCount);
     }
 
-    public void set(List<Uri> urlThumbList, List<Uri> urlList) {
+    public void set(List<MImage> urlThumbList, List<MImage> urlList) {
         mThumbDataList = urlThumbList;
         mDataList = urlList;
         if (isInit) {
@@ -71,7 +72,7 @@ public class MessagePicturesLayout extends FrameLayout implements View.OnClickLi
     }
 
     private void notifyDataChanged() {
-        final List<Uri> thumbList = mThumbDataList;
+        final List<MImage> thumbList = mThumbDataList;
         final int urlListSize = thumbList != null ? mThumbDataList.size() : 0;
 
         if (thumbList == null || thumbList.size() < 1) {
@@ -141,7 +142,7 @@ public class MessagePicturesLayout extends FrameLayout implements View.OnClickLi
     }
 
     public interface Callback {
-        void onThumbPictureClick(ImageView i, SparseArray<ImageView> imageGroupList, List<Uri> urlList);
+        void onThumbPictureClick(ImageView i, SparseArray<ImageView> imageGroupList, List<MImage> urlList);
     }
 
     public void setCallback(Callback callback) {

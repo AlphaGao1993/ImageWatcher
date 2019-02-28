@@ -9,6 +9,7 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 
 import com.github.ielse.imagewatcher.ImageWatcher;
+import com.github.ielse.imagewatcher.MImage;
 
 import java.util.List;
 
@@ -34,7 +35,7 @@ public class CustomDotIndexProvider implements ImageWatcher.IndexProvider {
     }
 
     @Override
-    public void onPageChanged(ImageWatcher imageWatcher, int position, List<Uri> dataList) {
+    public void onPageChanged(ImageWatcher imageWatcher, int position, List<MImage> dataList) {
         if (!initLayout) {
             initLayout = true;
             indicatorView.reset(dataList.size(), position, R.drawable.b_gray_dcdcdc_oval, R.drawable.b_yellow_ffb100_oval);

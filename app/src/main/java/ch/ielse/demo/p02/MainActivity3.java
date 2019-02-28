@@ -13,6 +13,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.github.ielse.imagewatcher.ImageWatcherHelper;
+import com.github.ielse.imagewatcher.MImage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -128,9 +129,9 @@ public class MainActivity3 extends Activity {
 
     }
 
-    private List<Uri> convert(List<String> data) {
-        List<Uri> list = new ArrayList<>();
-        for (String d : data) list.add(Uri.parse(d));
+    private List<MImage> convert(List<String> data) {
+        List<MImage> list = new ArrayList<>();
+        for (String d : data) list.add(MImage.parse(d));
         return list;
     }
 

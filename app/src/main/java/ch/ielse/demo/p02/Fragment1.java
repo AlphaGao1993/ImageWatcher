@@ -18,8 +18,8 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.github.ielse.imagewatcher.ImageWatcherHelper;
+import com.github.ielse.imagewatcher.MImage;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -37,7 +37,7 @@ public class Fragment1 extends Fragment {
     final int REQUEST_CODE_PICK_MULTI = 414;
 
     private ImageWatcherHelper iwHelper;
-    private final List<Uri> pictureList = new ArrayList<>();
+    private final List<MImage> pictureList = new ArrayList<>();
     private TextView vPictureUris;
     private EditText vIdx;
 
@@ -157,10 +157,14 @@ public class Fragment1 extends Fragment {
 
 
     private void notifyPictureListChanged(List<Uri> pictures) {
-        pictureList.addAll(0, pictures);
+        List list = new ArrayList<String>();
+        for (Uri p : pictures) {
+            list.add(MImage.parse(p.getPath()));
+        }
+        pictureList.addAll(0, list);
 
         StringBuilder sb = new StringBuilder();
-        for (Uri p : pictureList) {
+        for (Uri p : pictures) {
             sb.append(p.getScheme()).append("//:").append(p.getPath()).append("\n").append("\n");
         }
         vPictureUris.setText(sb);
